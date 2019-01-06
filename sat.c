@@ -7,7 +7,10 @@ typedef struct element {
     struct element *next;
 } element;
 
-
+/*
+Fonction: Saisir le nombre de variables dans une clause par l'utilisateur
+variable: nb_var indique le nombre de variable / exemple: (a || b) donc 2 variables
+*/
 int condition1()
 {
 	int nb_var;
@@ -16,7 +19,10 @@ int condition1()
    	
    	return nb_var;
 }
-
+/*
+Fonction: Saisir le nombre de clause dans l'expression par l'utilisateur
+variable: nb_clause indique le nombre de variable / exemple: (a || b) et (A || B) donc 2 clauses
+*/
 int condition2()
 {
 	int nb_clause;
@@ -25,7 +31,10 @@ int condition2()
    	return nb_clause;
 }
 
-
+/*
+Fonction: Afficher le tableau de référence qui montre la liste de solutions en fonction des variables lorsqu'on a une clause à deux variables
+variable: tab[5][4]  
+*/
 void affichage1(char tab[5][4])
 {
 	int i,j;
@@ -38,7 +47,10 @@ void affichage1(char tab[5][4])
 		printf("\n");
 	}
 }
-
+/*
+Fonction: Afficher le tableau de référence qui montre la liste de solutions en fonction des variables lorsqu'on a une clause à 3 variables
+variable: tab[10][6]  
+*/
 void affichage2(char tab[10][6])
 {
 	int i,j;
@@ -51,16 +63,19 @@ void affichage2(char tab[10][6])
 		printf("\n");
 	}
 }
-
+/*
+Fonction: Afficher la liste
+variable: une clause
+*/
 void affichage_liste(element * l)
 {	
+	printf("/  %c /", l->value);
 	while(l!= NULL)
    	{
    		l = l->next;
    		printf("/  %c /", l->value);
-    } 
+	}
 }
-
 //////////////// CREATION DE LA LISTE : Allocation en mémoire d'une clause " ////////////////////:
 element * creation(int valeur)
 {
@@ -70,7 +85,9 @@ element * creation(int valeur)
 	nouveau -> value=valeur;
 	return nouveau ;
 }
-//  Création d'une clause composé de X variables 
+/*  Fonction Création d'une clause composé de X variables  
+variables : nb_var: nombre de variables dans la clause / element *l = liste contenant clause/ element * p: liste intermédiaire / valeur : variable dans la clause
+*/
 element * clause (int nb_var)
 {	
 	element * l;
@@ -96,9 +113,11 @@ element * clause (int nb_var)
 	return l;
 }
 
-// Fonction qui rassemble les clauses générées dans la fonction présédente pour former une expression
 
 // 2 variables dans une clause.
+/*
+Tableau qui génère les solutions pour une clause à 2 variables (a b et B C )
+*/
 void solution1 (char tab[5][4])
 {
 	int i; int j;	
@@ -117,6 +136,9 @@ void solution1 (char tab[5][4])
 
 
 // 3 variables dans une clause
+/*
+Tableau qui génère les solutions pour une clause à 3 variables (a b c et A B C )
+*/
 void solution2(	char tab[10][6])
 {
 	int i;
@@ -144,6 +166,11 @@ void solution2(	char tab[10][6])
 
 
 //verification de la clause a 2 variables
+/*
+Fonction : Utilisant une clause à 2 variables. Elle compare la variable de la liste à celle du tableau de référence et introduit des valeurs
+1 si vrai et 0 si faux . l'entier i indique la ligne ou l'on peut trouvé une solution, donc si on 1 comme résultat après comparaison
+variables: clause / le tableau et i.
+*/
 
 void verif_sol1 (element * var1, char tab[5][4]){
 	int i;
@@ -219,6 +246,12 @@ void verif_sol1 (element * var1, char tab[5][4]){
 
 
 // verification de la clause a 3 variables
+/*
+Fonction : Utilisant une clause à 3 variables. Elle compare la variable de la liste à celle du tableau de référence et introduit des valeurs
+1 si vrai et 0 si faux . l'entier i indique la ligne ou l'on peut trouvé une solution, donc si on 1 comme résultat après comparaison
+variables: clause / le tableau et i.
+*/
+
 void verif_sol2 (element * var1, char tab[10][6]){
 	int i;
 	element * var2;
@@ -347,27 +380,29 @@ int main()
 		char tab2[10][6];
 		int i;
 		
-		
 		solution1(tab1);
 		solution2(tab2);
 		
 		affichage1(tab1);
 		printf("\n\n");
 		affichage2(tab2);
-		
+	
 		int nb_clause=condition2();
 		int nb_var;
 		
-		
 		for (i=0; i<nb_clause; i++)
 		{
+			printf("Bonjour, ne faire entrer les variables suivantes: \n a b c et leurs negations respectives: A B C \n ");
 			nb_var=condition1();
 			tab[i]= clause(nb_var);
 			if(nb_var==1) {
 				printf("Une solution est 1\n");
 			}
+			
 			if(nb_var==2) verif_sol1(tab[i], tab1);
 			if(nb_var==3) verif_sol2(tab[i], tab2);
+				
+			
 		}
    		return 0;
 }     
