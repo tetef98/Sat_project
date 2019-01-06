@@ -2,10 +2,10 @@
 #include<stdlib.h>
 
 
-typedef struct element {
+typedef struct clause {
     char value;
-    struct element *next;
-} element;
+    struct clause *next;
+} clause;
 
 /*
 Fonction: Saisir le nombre de variables dans une clause par l'utilisateur
@@ -65,9 +65,9 @@ void affichage2(char tab[10][6])
 }
 /*
 Fonction: Afficher la liste
-variable: une clause
+variable: une clause (liste clause)
 */
-void affichage_liste(element * l)
+void affichage_liste(clause * l)
 {	
 	printf("/  %c /", l->value);
 	while(l!= NULL)
@@ -77,21 +77,21 @@ void affichage_liste(element * l)
 	}
 }
 //////////////// CREATION DE LA LISTE : Allocation en mémoire d'une clause " ////////////////////:
-element * creation(int valeur)
+clause * creation(int valeur)
 {
-	element * nouveau;
-	nouveau = (element*)malloc(sizeof(element));
+	clause * nouveau;
+	nouveau = (clause*)malloc(sizeof(clause));
 	nouveau -> next=NULL; // initialiser les valeurs suivantes à NULL pour que chaque pointeur pointe vers un rien
 	nouveau -> value=valeur;
 	return nouveau ;
 }
 /*  Fonction Création d'une clause composé de X variables  
-variables : nb_var: nombre de variables dans la clause / element *l = liste contenant clause/ element * p: liste intermédiaire / valeur : variable dans la clause
+variables : nb_var: nombre de variables dans la clause / clause *l = liste contenant clause/ clause * p: liste intermédiaire / valeur : variable dans la clause
 */
-element * clause (int nb_var)
+clause * saisir_clause (int nb_var)
 {	
-	element * l;
-	element * p;
+	clause * l;
+	clause * p;
    	char valeur;
    	int i;
    	for(i=0; i<nb_var; i++)
@@ -106,8 +106,7 @@ element * clause (int nb_var)
 		}
 		else{
 			printf("Erreur d'entree variable, veuillez ressaisir\n");
-			return clause(nb_var);
-			
+			return saisir_clause(nb_var);
 		}
 	}
 	return l;
@@ -172,9 +171,9 @@ Fonction : Utilisant une clause à 2 variables. Elle compare la variable de la li
 variables: clause / le tableau et i.
 */
 
-void verif_sol1 (element * var1, char tab[5][4]){
+void verif_sol1 (clause * var1, char tab[5][4]){
 	int i;
-	element * var2;
+	clause * var2;
 	var2=var1->next;
 	int tmp=0;
 	int q[5];
@@ -252,10 +251,10 @@ Fonction : Utilisant une clause à 3 variables. Elle compare la variable de la li
 variables: clause / le tableau et i.
 */
 
-void verif_sol2 (element * var1, char tab[10][6]){
+void verif_sol2 (clause * var1, char tab[10][6]){
 	int i;
-	element * var2;
-	element * var3;
+	clause * var2;
+	clause * var3;
 	var2=var1->next;
 	var3=var2->next;
 	int q[10];
@@ -375,7 +374,7 @@ void verif_sol2 (element * var1, char tab[10][6]){
 int main()
 {  	
 		printf("\t\t BIENVENUE DANS LE PROJET SAT 2018\n");	
-		element * tab[5];
+		clause * tab[5];
 		char tab1[5][4];
 		char tab2[10][6];
 		int i;
@@ -394,16 +393,16 @@ int main()
 		{
 			printf("Bonjour, ne faire entrer les variables suivantes: \n a b c et leurs negations respectives: A B C \n ");
 			nb_var=condition1();
-			tab[i]= clause(nb_var);
+			tab[i]= saisir_clause(nb_var);
 			if(nb_var==1) {
 				printf("Une solution est 1\n");
 			}
 			
 			if(nb_var==2) verif_sol1(tab[i], tab1);
 			if(nb_var==3) verif_sol2(tab[i], tab2);
-				
 			
 		}
+		affichage_liste(tab[0]);
    		return 0;
 }     
 
